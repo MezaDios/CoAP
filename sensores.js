@@ -1,49 +1,33 @@
 const coap = require('coap');
 
-coap.request({
+let requestPC = coap.request({
     hostname: 'localhost',
     pathname: '/sensores/computadora',
     method: 'POST'
 })
 
-coap.request({
-    hostname: 'localhost',
-    pathname: '/sensores/puerta',
-    method: 'POST'
-})
-
-coap.request({
+let requestPH = coap.request({
     hostname: 'localhost',
     pathname: '/sensores/humo',
     method: 'POST'
 })
 
-coap.request({
+let requestPL = coap.request({
     hostname: 'localhost',
     pathname: '/sensores/luminosidad',
     method: 'POST'
 })
 
-setInterval(() => {
+let requestPP = coap.request({
+    hostname: 'localhost',
+    pathname: '/sensores/puerta',
+    method: 'POST'
+})
 
-    let aleatorio = Math.floor(Math.random() * (2 - 0)) + 0
-
-    let estadoPC = null
-
-    if (aleatorio == 1) {
-        estadoPC = "PC encendida"
-    }
-    else {
-        estadoPC = "PC apagada"
-    }
-
-    coap.request({
-        hostname: 'localhost',
-        pathname: '/sensores/computadora',
-        method: 'PUT',
-        value: `${estadoPC}`
-    })
-}, 5000)
+requestPC.end()
+requestPH.end()
+requestPL.end()
+requestPP.end()
 
 setInterval(() => {
 
@@ -58,24 +42,30 @@ setInterval(() => {
         estadoPuerta = "Puerta cerrada"
     }
 
-    coap.request({
+    console.log(estadoPuerta)
+
+    let req = coap.request({
         hostname: 'localhost',
-        pathname: '/sensores/puerta',
-        method: 'PUT',
-        value: `${estadoPuerta}`
+        pathname: `/sensores/puerta-${estadoPuerta}`,
+        method: 'PUT'
     })
+
+    req.end()
 }, 5000)
 
 setInterval(() => {
 
-    let luminosidad = Math.floor(Math.random() * (101 - 1)) + 1
+    let luminosidad = Math.floor(Math.random() * (11 - 1)) + 1
 
-    coap.request({
+    console.log(`Luminosidad: ${luminosidad}%`)
+
+    let req = coap.request({
         hostname: 'localhost',
-        pathname: '/sensores/luminosidad',
-        method: 'PUT',
-        value: luminosidad
+        pathname: `/sensores/luminosidad-${luminosidad}`,
+        method: 'PUT'
     })
+
+    req.end()
 }, 5000)
 
 setInterval(() => {
@@ -90,10 +80,36 @@ setInterval(() => {
         estadoHumo = "Sin humo"
     }
 
-    coap.request({
+    console.log(estadoHumo)
+
+    let req = coap.request({
         hostname: 'localhost',
-        pathname: '/sensores/humo',
-        method: 'PUT',
-        value: `${estadoHumo}`
+        pathname: `/sensores/humo-${estadoHumo}`,
+        method: 'PUT'
     })
+
+    req.end()
+}, 5000)
+
+setInterval(() => {
+    let aleatorio = Math.floor(Math.random() * (2 - 0)) + 0
+
+    let estadoPC = null
+
+    if (aleatorio == 1) {
+        estadoPC = "PC encendida"
+    }
+    else {
+        estadoPC = "PC apagada"
+    }
+
+    console.log(estadoPC)
+
+    let req = coap.request({
+        hostname: 'localhost',
+        pathname: `/sensores/computadora-${estadoPC}`,
+        method: 'PUT'
+    })
+
+    req.end()
 }, 5000)

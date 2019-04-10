@@ -1,7 +1,14 @@
 const coap = require('coap');
 
-setInterval(() => {
+let request = coap.request({
+    hostname: 'localhost',
+    pathname: '/sensores/computadora',
+    method: 'POST'
+})
 
+request.end()
+
+setInterval(() => {
     let aleatorio = Math.floor(Math.random() * (2 - 0)) + 0
 
     let estadoPC = null
@@ -13,11 +20,13 @@ setInterval(() => {
         estadoPC = "PC apagada"
     }
 
-    coap.request({
+    console.log(estadoPC)
+
+    let req = coap.request({
         hostname: 'localhost',
-        pathname: 'sensores/computadora',
-        method: 'PUT',
-        value: `${estadoPC}`
+        pathname: `/sensores/computadora-${estadoPC}`,
+        method: 'PUT'
     })
-    coap.end();
+
+    req.end()
 }, 5000)

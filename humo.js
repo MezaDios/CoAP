@@ -1,21 +1,32 @@
 const coap = require('coap');
 
+let request = coap.request({
+    hostname: 'localhost',
+    pathname: '/sensores/humo',
+    method: 'POST'
+})
 
-let aleatorio = Math.floor(Math.random() * (2 - 0)) + 0
+request.end()
 
-let estadoHumo = null
+setInterval(() => {
+    let aleatorio = Math.floor(Math.random() * (2 - 0)) + 0
 
-if (aleatorio == 1) {
-    estadoHumo = "Humo presente"
-}
-else {
-    estadoHumo = "Sin humo"
-}
+    let estadoHumo = null
 
-coap
-    .request({
+    if (aleatorio == 1) {
+        estadoHumo = "Humo presente"
+    }
+    else {
+        estadoHumo = "Sin humo"
+    }
+
+    console.log(estadoHumo)
+
+    let req = coap.request({
         hostname: 'localhost',
-        pathname: '/sensores/humo',
-        method: 'PUT',
-        headers: `${estadoHumo}`
+        pathname: `/sensores/humo-${estadoHumo}`,
+        method: 'PUT'
     })
+
+    req.end()
+}, 5000)

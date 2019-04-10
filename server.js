@@ -13,44 +13,55 @@ server.listen(() => {
 })
 
 server.on('request', (req, res) => {
-    console.log(req);
 
     res.setOption('Content-Format', 'application/json');
+
+    let URL = req.url.split('-')[0]
+
     switch (req.method) {
         case 'GET':
-            if (req.url == '/sensores/luminosidad') {
+            if (URL == '/sensores/luminosidad') {
                 res.end(JSON.stringify({ estado: `Luminosidad: ${luminosidadActual}%` }))
-            } else if (req.url == '/sensores/computadora') {
+            } else if (URL == '/sensores/computadora') {
                 res.end(JSON.stringify({ estado: `Estado de la computadora: ${estadoComputadora}` }))
-            } else if (req.url == '/sensores/humo') {
+            } else if (URL == '/sensores/humo') {
                 res.end(JSON.stringify({ estado: `Estado del humificador: ${estadoHumo}` }))
-            } else if (req.url == '/sensores/puerta') {
+            } else if (URL == '/sensores/puerta') {
                 res.end(JSON.stringify({ estado: `Estado de la puerta: ${estadoPuerta}` }))
             }
+            console.log('Datos enviados correctamente.')
             break
         case 'POST':
-            if (req.url == '/sensores/luminosidad') {
+            if (URL == '/sensores/luminosidad') {
                 console.log("El sensor de luminosidad esta activo")
-            } else if (req.url == '/sensores/computadora') {
+                res.end()
+            } else if (URL == '/sensores/computadora') {
                 console.log("El sensor de actividad de la computadora esta activo")
-            } else if (req.url == '/sensores/humo') {
+                res.end()
+            } else if (URL == '/sensores/humo') {
                 console.log("El sensor de humo esta activo")
-            } else if (req.url == '/sensores/puerta') {
+                res.end()
+            } else if (URL == '/sensores/puerta') {
                 console.log("El sensor de la puerta esta activo")
+                res.end()
             }
             break
         case 'PUT':
-            if (req.url == '/sensores/luminosidad') {
-                luminosidadActual = req.value
+            if (URL == '/sensores/luminosidad') {
+                luminosidadActual = req.url.split('-')[1]
+                console.log(`Nuevo estado de luminosidad: ${luminosidadActual}%`)
                 res.end()
-            } else if (req.url == '/sensores/computadora') {
-                estadoComputadora = req.value
+            } else if (URL == '/sensores/computadora') {
+                estadoComputadora = req.url.split('-')[1]
+                console.log(`Nuevo estado de la computadora: ${estadoComputadora}`)
                 res.end()
-            } else if (req.url == '/sensores/humo') {
-                estadoHumo = req.headers
+            } else if (URL == '/sensores/humo') {
+                estadoHumo = req.url.split('-')[1]
+                console.log(`Nuevo estado de humo: ${estadoHumo}`)
                 res.end()
-            } else if (req.url == '/sensores/puerta') {
-                estadoPuerta = req.value
+            } else if (URL == '/sensores/puerta') {
+                estadoPuerta = req.url.split('-')[1]
+                console.log(`Nuevo estado de la puerta: ${estadoPuerta}`)
                 res.end()
             }
             break
