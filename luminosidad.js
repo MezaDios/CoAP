@@ -10,15 +10,22 @@ request.end()
 
 setInterval(() => {
 
-    let luminosidad = Math.floor(Math.random() * (11 - 1)) + 1
+    let luminosidad = Math.floor(Math.random() * (101 - 1)) + 1
 
     console.log(`Luminosidad: ${luminosidad}%`)
 
     let req = coap.request({
         hostname: 'localhost',
-        pathname: `/sensores/luminosidad-${luminosidad}`,
+        pathname: `/sensores/luminosidad`,
         method: 'PUT'
     })
 
-    req.end()
+
+    req.on('response', (res) => {
+        let respuesta = JSON.parse(res.payload.toString());
+        console.log(respuesta.estado)
+    })
+
+
+    req.end(JSON.stringify({ value: `${luminosidad}` }))
 }, 5000)

@@ -5,29 +5,52 @@ let requestPC = coap.request({
     pathname: '/sensores/computadora',
     method: 'POST'
 })
+requestPC.on('response', (res) => {
+    let respuesta = JSON.parse(res.payload.toString());
+    console.log(respuesta.estado)
+})
+requestPC.write(JSON.stringify({ activar: true }))
+requestPC.end()
+
 
 let requestPH = coap.request({
     hostname: 'localhost',
     pathname: '/sensores/humo',
     method: 'POST'
 })
+requestPH.on('response', (res) => {
+    let respuesta = JSON.parse(res.payload.toString());
+    console.log(respuesta.estado)
+})
+requestPH.write(JSON.stringify({ activar: true }))
+requestPH.end()
+
 
 let requestPL = coap.request({
     hostname: 'localhost',
     pathname: '/sensores/luminosidad',
     method: 'POST'
 })
+requestPL.on('response', (res) => {
+    let respuesta = JSON.parse(res.payload.toString());
+    console.log(respuesta.estado)
+})
+requestPL.write(JSON.stringify({ activar: true }))
+requestPL.end()
+
 
 let requestPP = coap.request({
     hostname: 'localhost',
     pathname: '/sensores/puerta',
     method: 'POST'
 })
-
-requestPC.end()
-requestPH.end()
-requestPL.end()
+requestPP.on('response', (res) => {
+    let respuesta = JSON.parse(res.payload.toString());
+    console.log(respuesta.estado)
+})
+requestPP.write(JSON.stringify({ activar: true }))
 requestPP.end()
+
 
 setInterval(() => {
 
@@ -46,26 +69,32 @@ setInterval(() => {
 
     let req = coap.request({
         hostname: 'localhost',
-        pathname: `/sensores/puerta-${estadoPuerta}`,
+        pathname: `/sensores/puerta`,
         method: 'PUT'
     })
-
-    req.end()
+    req.on('response', (res) => {
+        let respuesta = JSON.parse(res.payload.toString());
+        console.log(respuesta.estado)
+    })
+    req.end(JSON.stringify({ value: `${estadoPuerta}` }))
 }, 5000)
 
 setInterval(() => {
 
-    let luminosidad = Math.floor(Math.random() * (11 - 1)) + 1
+    let luminosidad = Math.floor(Math.random() * (101 - 1)) + 1
 
     console.log(`Luminosidad: ${luminosidad}%`)
 
     let req = coap.request({
         hostname: 'localhost',
-        pathname: `/sensores/luminosidad-${luminosidad}`,
+        pathname: `/sensores/luminosidad`,
         method: 'PUT'
     })
-
-    req.end()
+    req.on('response', (res) => {
+        let respuesta = JSON.parse(res.payload.toString());
+        console.log(respuesta.estado)
+    })
+    req.end(JSON.stringify({ value: `${luminosidad}` }))
 }, 5000)
 
 setInterval(() => {
@@ -84,11 +113,14 @@ setInterval(() => {
 
     let req = coap.request({
         hostname: 'localhost',
-        pathname: `/sensores/humo-${estadoHumo}`,
+        pathname: `/sensores/humo`,
         method: 'PUT'
     })
-
-    req.end()
+    req.on('response', (res) => {
+        let respuesta = JSON.parse(res.payload.toString());
+        console.log(respuesta.estado)
+    })
+    req.end(JSON.stringify({ value: `${estadoHumo}` }))
 }, 5000)
 
 setInterval(() => {
@@ -107,9 +139,12 @@ setInterval(() => {
 
     let req = coap.request({
         hostname: 'localhost',
-        pathname: `/sensores/computadora-${estadoPC}`,
+        pathname: `/sensores/computadora`,
         method: 'PUT'
     })
-
-    req.end()
+    req.on('response', (res) => {
+        let respuesta = JSON.parse(res.payload.toString());
+        console.log(respuesta.estado)
+    })
+    req.end(JSON.stringify({ value: `${estadoPC}` }))
 }, 5000)

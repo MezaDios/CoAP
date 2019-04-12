@@ -20,7 +20,7 @@ menu.addItem(
       let respuesta = JSON.parse(res.payload.toString());
       console.log(respuesta.estado)
     })
-    request.end()
+    request.end("")
   },
   null,
   null
@@ -38,7 +38,7 @@ menu.addItem(
       let respuesta = JSON.parse(res.payload.toString());
       console.log(respuesta.estado)
     })
-    request.end()
+    request.end("")
   },
   null,
   null
@@ -56,7 +56,7 @@ menu.addItem(
       let respuesta = JSON.parse(res.payload.toString());
       console.log(respuesta.estado)
     })
-    request.end()
+    request.end("")
   },
   null,
   null
@@ -74,7 +74,7 @@ menu.addItem(
       let respuesta = JSON.parse(res.payload.toString());
       console.log(respuesta.estado)
     })
-    request.end()
+    request.end("")
   },
   null,
   null

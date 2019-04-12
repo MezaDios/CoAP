@@ -25,9 +25,12 @@ setInterval(() => {
 
     let req = coap.request({
         hostname: 'localhost',
-        pathname: `/sensores/puerta-${estadoPuerta}`,
+        pathname: `/sensores/puerta`,
         method: 'PUT'
     })
-
-    req.end()
+    req.on('response', (res) => {
+        let respuesta = JSON.parse(res.payload.toString());
+        console.log(respuesta.estado)
+    })
+    req.end(JSON.stringify({ value: `${estadoPuerta}` }))
 }, 5000)
